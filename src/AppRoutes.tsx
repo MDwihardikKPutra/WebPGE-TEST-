@@ -1,0 +1,66 @@
+// src/AppRoutes.tsx
+// Baris 'import React from 'react';' telah dihapus untuk memperbaiki error "React has already been declared".
+import { Routes, Route } from "react-router-dom";
+
+// Import komponen App sebagai LAYOUT.
+// Diasumsikan App.tsx mengekspor 'export default App;'.
+import AppLayout from "./App";
+
+// Import halaman konten utama (Home).
+import Home from "./pages/Home";
+
+// Import halaman-halaman konten lainnya.
+import About from "./pages/About"; // PENTING: import About
+import Projects from "./pages/Projects"; // PENTING: import Projects
+import CSRPageContent from "./pages/CSR";
+import ExperiencePageContent from "./pages/Experience";
+import ServiceDetailPageContent from "./pages/ServiceDetail";
+
+/**
+ * AppRoutes component mendefinisikan semua rute aplikasi menggunakan React Router DOM.
+ * Menggunakan nested routing untuk menerapkan layout umum (Navbar dan Footer)
+ * yang disediakan oleh AppLayout untuk semua halaman konten.
+ */
+function AppRoutes() {
+  return (
+    <Routes>
+      {/* Route utama untuk layout.
+        Semua rute bersarang di dalamnya (<Outlet /> di AppLayout) akan menggunakan AppLayout.
+        path="/" berarti ini adalah rute dasar dari aplikasi.
+      */}
+      <Route path="/" element={<AppLayout />}>
+        {/* Route index untuk halaman utama (Home). */}
+        <Route index element={<Home />} />
+
+        {/* Route untuk halaman About. */}
+        <Route path="about" element={<About />} />
+
+        {/* Route untuk halaman Projects. */}
+        <Route path="projects" element={<Projects />} />
+
+        {/* Route untuk halaman-halaman konten lainnya. */}
+        <Route path="csr" element={<CSRPageContent />} />
+        <Route path="experience" element={<ExperiencePageContent />} />
+        {/* Rute dinamis untuk detail layanan, mengambil parameter 'serviceName' dari URL. */}
+        <Route
+          path="service-detail/:serviceName"
+          element={<ServiceDetailPageContent />}
+        />
+
+        {/* Catch-all route untuk halaman 404 (Not Found). */}
+        <Route
+          path="*"
+          element={
+            <div className="min-h-screen flex items-center justify-center bg-gray-100">
+              <h1 className="text-4xl font-bold text-gray-800">
+                404 - Page Not Found
+              </h1>
+            </div>
+          }
+        />
+      </Route>
+    </Routes>
+  );
+}
+
+export default AppRoutes;
